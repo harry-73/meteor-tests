@@ -1,0 +1,4 @@
+node_modules/
+_vite-bundle/
+.coverage/
+.meteor/local/

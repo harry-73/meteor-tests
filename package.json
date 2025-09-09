@@ -1,0 +1,90 @@
+{
+  "name": "meteor-tests",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "build": "meteor build ../output/vue --directory",
+    "test": "MONGO_URL='' BABEL_ENV=test TEST_CLIENT=0 NO_HMR=1 COVERAGE=1 COVERAGE_OUT_LCOVONLY=1 COVERAGE_APP_FOLDER=$PWD/ meteor test  --once  --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          "@babel/preset-env"
+        ],
+        "plugins": [
+          [
+            "istanbul",
+            {
+              "extension": [
+                ".js",
+                ".vue"
+              ],
+              "include": [
+                "**/*.{js,vue}"
+              ],
+              "exclude": [
+                ".coverage/**",
+                "**/.vite-inspect/**",
+                "**/tests/**",
+                "*.js"
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "all": false,
+    "reporter": [
+      "lcovonly"
+    ],
+    "report-dir": ".cypress-coverage",
+    "instrument": true,
+    "sourceMap": true,
+    "include": [
+      "**/*.{js,vue}"
+    ],
+    "exclude": [
+      "**/node_modules/**",
+      "**/tests/**",
+      ".coverage/**",
+      "packages/**",
+      ".vite-inspect/**",
+      "*.js"
+    ],
+    "extension": [
+      ".js",
+      ".vue"
+    ]
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.23.5",
+    "@swc/helpers": "^0.5.17",
+    "meteor-node-stubs": "^1.2.12",
+    "vue": "^3.3.9",
+    "vue-meteor-tracker": "^3.0.0-beta.7",
+    "vue-router": "^4.2.5"
+  },
+  "meteor": {
+    "modern": true,
+    "mainModule": {
+      "client": "client/entry-meteor.js",
+      "server": "server/entry-meteor.js"
+    },
+    "testModule": "tests/main.js"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.3",
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/meteor": "^2.9.7",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "meteor-vite": "^3.2.1",
+    "nyc": "^17.1.0",
+    "tailwindcss": "^4.1.11",
+    "vite": "^6.0.11"
+  }
+}
